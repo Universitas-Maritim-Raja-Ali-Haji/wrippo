@@ -22,6 +22,7 @@ Beberapa waktu lalu, team kami belajar banyak hal mengenai pengembangan game eng
 
 - Membuat canvas program
 - Menambahkan kemampuan keylistener (program akan fade ketika anda menekan spacebar)
+- rendering process WILL BE ADD!
 
 ## Referensi
 https://lwjglgamedev.gitbooks.io/3d-game-development-with-lwjgl/content/chapter01/chapter1.html
