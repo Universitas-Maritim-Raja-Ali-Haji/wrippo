@@ -21,8 +21,8 @@ Beberapa waktu lalu, team kami belajar banyak hal mengenai pengembangan game eng
 ## Timeline
 
 - Membuat canvas program
-- Menambahkan kemampuan keylistener (program akan fade ketika anda menekan spacebar)
-- rendering process WILL BE ADD!
+- Menambahkan kemampuan keylistener
+- Delta Time Variable test
 
 ## Referensi
 https://lwjglgamedev.gitbooks.io/3d-game-development-with-lwjgl/content/chapter01/chapter1.html
