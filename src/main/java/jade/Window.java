@@ -17,18 +17,16 @@ public class Window {
 
     public float r, g, b, a;
     private boolean fadeToBlack = false;
-
     private static Window window = null;
-
     private static Scene currentScene;
 
     private Window() {
         this.width = 1920;
         this.height = 1080;
-        this.title = "Wripo";
-        r = 1;
-        b = 1;
-        g = 1;
+        this.title = "Wrippo";
+        r = 0;
+        b = 0;
+        g = 0;
         a = 1;
     }
 
@@ -37,10 +35,12 @@ public class Window {
             case 0:
                 currentScene = new LevelEditorScene();
                 currentScene.init();
+                currentScene.start();
                 break;
             case 1:
                 currentScene = new LevelScene();
                 currentScene.init();
+                currentScene.start();
                 break;
             default:
                 assert false : "Unknown scene '" + newScene + "'";
@@ -48,12 +48,17 @@ public class Window {
         }
     }
 
+
     public static Window get() {
         if (Window.window == null) {
             Window.window = new Window();
         }
 
         return Window.window;
+    }
+
+    public static Scene getScene() {
+        return get().currentScene;
     }
 
     public void run() {
@@ -95,7 +100,7 @@ public class Window {
         glfwSetCursorPosCallback(glfwWindow, MouseListener::mousePosCallback);
         glfwSetMouseButtonCallback(glfwWindow, MouseListener::mouseButtonCallback);
         glfwSetScrollCallback(glfwWindow, MouseListener::mouseScrollCallback);
-        glfwSetKeyCallback(glfwWindow, KeyListener::keyCallBack);
+        glfwSetKeyCallback(glfwWindow, KeyListener::keyCallback);
 
         // Make the OpenGL context current
         glfwMakeContextCurrent(glfwWindow);
@@ -126,7 +131,6 @@ public class Window {
 
             glClearColor(r, g, b, a);
             glClear(GL_COLOR_BUFFER_BIT);
-
             if (dt >= 0) {
                 currentScene.update(dt);
             }
