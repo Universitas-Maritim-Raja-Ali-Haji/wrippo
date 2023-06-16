@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GameObject {
-
     private static int ID_COUNTER = 0;
     private int uid = -1;
 
@@ -55,9 +54,6 @@ public class GameObject {
         c.gameObject = this;
     }
 
-    public List<Component> getAllComponents() {
-        return this.components;
-    }
 
     public void update(float dt) {
         for (int i=0; i < components.size(); i++) {
@@ -82,10 +78,15 @@ public class GameObject {
     }
 
     public int uid() {
+        public static void init(int maxId) {
+            ID_COUNTER = maxId;
+        }
+
+        public int getUid() {
         return this.uid;
     }
 
-    public static void init(int maxId) {
-        ID_COUNTER = maxId;
+        public List<Component> getAllComponents() {
+            return this.components;
     }
 }
