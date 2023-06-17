@@ -1,13 +1,18 @@
 package jade;
 
 import editor.GameViewWindow;
+import editor.MenuBar;
+import editor.PropertiesWindow;
 import imgui.*;
 import imgui.callback.ImStrConsumer;
 import imgui.callback.ImStrSupplier;
 import imgui.flag.*;
 import imgui.gl3.ImGuiImplGl3;
 import imgui.type.ImBoolean;
+import renderer.PickingTexture;
 import scenes.Scene;
+
+import java.util.PropertyResourceBundle;
 
 import static org.lwjgl.glfw.GLFW.*;
 
@@ -21,8 +26,15 @@ public class ImGuiLayer {
     // LWJGL3 renderer (SHOULD be initialized)
     private final ImGuiImplGl3 imGuiGl3 = new ImGuiImplGl3();
 
-    public ImGuiLayer(long glfwWindow) {
+    private GameViewWindow gameViewWindow;
+    private PropertiesWindow propertiesWindow;
+    private MenuBar menuBar;
+
+    public ImGuiLayer(long glfwWindow, PickingTexture pickingTexture) {
         this.glfwWindow = glfwWindow;
+        this.gameViewWindow = new GameViewWindow();
+        this.propertiesWindow = new PropertiesWindow(pickingTexture);
+        this.menuBar = new MenuBar();
     }
 
     // Initialize Dear ImGui.
@@ -121,7 +133,7 @@ public class ImGuiLayer {
                 ImGui.setWindowFocus(null);
             }
 
-            if (!io.getWantCaptureMouse() || GameViewWindow.getWantCaptureMouse()) {
+            if (!io.getWantCaptureMouse() || gameViewWindow.getWantCaptureMouse()) {
                 MouseListener.mouseButtonCallback(w, button, action, mods);
             }
         });
@@ -129,6 +141,7 @@ public class ImGuiLayer {
         glfwSetScrollCallback(glfwWindow, (w, xOffset, yOffset) -> {
             io.setMouseWheelH(io.getMouseWheelH() + (float) xOffset);
             io.setMouseWheel(io.getMouseWheel() + (float) yOffset);
+            MouseListener.mouseScrollCallback(w, xOffset, yOffset);
         });
 
         io.setSetClipboardTextFn(new ImStrConsumer() {
@@ -182,9 +195,12 @@ public class ImGuiLayer {
         // Any Dear ImGui code SHOULD go between ImGui.newFrame()/ImGui.render() methods
         ImGui.newFrame();
         setupDockspace();
-        currentScene.sceneImgui();
+        currentScene.imgui();
         ImGui.showDemoWindow();
-        GameViewWindow.imgui();
+        gameViewWindow.imgui();
+        propertiesWindow.update(dt, currentScene);
+        propertiesWindow.imgui();
+        menuBar.imgui();
         ImGui.end();
         ImGui.render();
 
@@ -223,6 +239,7 @@ public class ImGuiLayer {
         imGuiGl3.dispose();
         ImGui.destroyContext();
     }
+
     private void setupDockspace() {
         int windowFlags = ImGuiWindowFlags.MenuBar | ImGuiWindowFlags.NoDocking;
 
@@ -239,5 +256,9 @@ public class ImGuiLayer {
 
         // Dockspace
         ImGui.dockSpace(ImGui.getID("Dockspace"));
+    }
+
+    public PropertiesWindow getPropertiesWindow() {
+        return this.propertiesWindow;
     }
 }

@@ -21,7 +21,7 @@ public class DebugDraw {
     private static List<Line2D> lines = new ArrayList<>();
     // 6 floats per vertex, 2 vertices per line
     private static float[] vertexArray = new float[MAX_LINES * 6 * 2];
-    private static Shader shader = AssetPool.getShader( "assets/shaders/debugLine2D.glsl");
+    private static Shader shader = AssetPool.getShader("assets/shaders/debugLine2D.glsl");
 
     private static int vaoID;
     private static int vboID;
@@ -37,8 +37,8 @@ public class DebugDraw {
         vboID = glGenBuffers();
         glBindBuffer(GL_ARRAY_BUFFER, vboID);
         glBufferData(GL_ARRAY_BUFFER, vertexArray.length * Float.BYTES, GL_DYNAMIC_DRAW);
-        // Enable the vertex array attributes
 
+        // Enable the vertex array attributes
         glVertexAttribPointer(0, 3, GL_FLOAT, false, 6 * Float.BYTES, 0);
         glEnableVertexAttribArray(0);
 
@@ -146,8 +146,8 @@ public class DebugDraw {
         Vector2f max = new Vector2f(center).add(new Vector2f(dimensions).mul(0.5f));
 
         Vector2f[] vertices = {
-                new Vector2f(min.x, min.y), new Vector2f(min.x, max.y),
-                new Vector2f(max.x, max.y), new Vector2f(max.x, min.y)
+              new Vector2f(min.x, min.y), new Vector2f(min.x, max.y),
+              new Vector2f(max.x, max.y), new Vector2f(max.x, min.y)
         };
 
         if (rotation != 0.0f) {
