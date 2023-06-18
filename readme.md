@@ -1,6 +1,6 @@
 # Wrippo Engine Java 2D Game
 
-![Logo Mesin Permainan](/assets/logo.PNG)
+![Logo Mesin Permainan](/assets/logo.png)
 
 ## Deskripsi
 
