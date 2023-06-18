@@ -237,7 +237,6 @@ public class RenderBatch implements Comparable<RenderBatch> {
     }
 
     public boolean hasTexture(Texture tex) {
-
         return this.textures.contains(tex);
     }
 

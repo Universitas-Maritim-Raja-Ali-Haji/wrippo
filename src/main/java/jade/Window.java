@@ -14,6 +14,7 @@ public class Window {
     private String title;
     private long glfwWindow;
     private ImGuiLayer imguiLayer;
+
     public float r, g, b, a;
     private boolean fadeToBlack = false;
 
@@ -144,7 +145,8 @@ public class Window {
             if (dt >= 0) {
                 currentScene.update(dt);
             }
-            this.imguiLayer.update(dt);
+
+            this.imguiLayer.update(dt, currentScene);
             glfwSwapBuffers(glfwWindow);
 
             endTime = (float)glfwGetTime();
@@ -152,6 +154,7 @@ public class Window {
             beginTime = endTime;
         }
     }
+
     public static int getWidth() {
         return get().width;
     }

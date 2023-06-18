@@ -37,7 +37,7 @@ public class Renderer {
         }
 
         if (!added) {
-            RenderBatch newBatch = new RenderBatch(MAX_BATCH_SIZE, sprite.gameObject.zIndex());;
+            RenderBatch newBatch = new RenderBatch(MAX_BATCH_SIZE, sprite.gameObject.zIndex());
             newBatch.start();
             batches.add(newBatch);
             newBatch.addSprite(sprite);
