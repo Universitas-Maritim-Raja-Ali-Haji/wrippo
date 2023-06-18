@@ -1,26 +1,33 @@
 package components;
 
-import editor.JImGui;
-import imgui.ImGui;
+import jade.Component;
 import jade.Transform;
 import org.joml.Vector2f;
 import org.joml.Vector4f;
 import renderer.Texture;
-import util.AssetPool;
 
 public class SpriteRenderer extends Component {
 
-    private Vector4f color = new Vector4f(1, 1, 1, 1);
-    private Sprite sprite = new Sprite();
+    private Vector4f color;
+    private Sprite sprite;
 
-    private transient Transform lastTransform;
-    private transient boolean isDirty = true;
+    private Transform lastTransform;
+    private boolean isDirty = false;
+
+    public SpriteRenderer(Vector4f color) {
+        this.color = color;
+        this.sprite = new Sprite(null);
+        this.isDirty = true;
+    }
+
+    public SpriteRenderer(Sprite sprite) {
+        this.sprite = sprite;
+        this.color = new Vector4f(1, 1, 1, 1);
+        this.isDirty = true;
+    }
 
     @Override
     public void start() {
-        if (this.sprite.getTexture() != null) {
-            this.sprite.setTexture(AssetPool.getTexture(this.sprite.getTexture().getFilepath()));
-        }
         this.lastTransform = gameObject.transform.copy();
     }
 
@@ -30,25 +37,6 @@ public class SpriteRenderer extends Component {
             this.gameObject.transform.copy(this.lastTransform);
             isDirty = true;
         }
-    }
-
-    @Override
-    public void editorUpdate(float dt) {
-        if (!this.lastTransform.equals(this.gameObject.transform)) {
-            this.gameObject.transform.copy(this.lastTransform);
-            isDirty = true;
-        }
-    }
-
-    @Override
-    public void imgui() {
-        if (JImGui.colorPicker4("Color Pickier", this.color)) {
-            this.isDirty = true;
-        }
-    }
-
-    public void setDirty() {
-        this.isDirty = true;
     }
 
     public Vector4f getColor() {
@@ -81,9 +69,5 @@ public class SpriteRenderer extends Component {
 
     public void setClean() {
         this.isDirty = false;
-    }
-
-    public void setTexture(Texture texture) {
-        this.sprite.setTexture(texture);
     }
 }
